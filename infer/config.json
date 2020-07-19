@@ -1,0 +1,89 @@
+{
+	"model_type": "TensorFlow",
+	"metrics": {
+		"f1": 0.345294,
+		"accuracy": 0.462963,
+		"precision": 0.338977,
+		"recall": 0.351852
+	},
+	"runtime": "tf2.1-python3.7",
+	"model_algorithm": "image_classification",
+	"dependencies": [
+		{
+			"installer": "pip",
+			"packages": [
+				{
+					"restraint": "EXACT",
+					"package_version": "3.4.2.17",
+					"package_name": "opencv-python-headless"
+				},
+				{
+					"restraint": "EXACT",
+					"package_version": "0.14.5",
+					"package_name": "scikit-image"
+				},
+				{
+					"restraint": "EXACT",
+					"package_version": "1.17.0",
+					"package_name": "numpy"
+				}
+			]
+		}
+	],
+	"apis": [
+		{
+			"procotol": "http",
+			"url": "/",
+			"method": "post",
+			"request": {
+				"Content-type": "multipart/form-data",
+				"data": {
+					"type": "object",
+					"required": [
+						"image"
+					],
+					"properties": {
+						"image": {
+							"type": "file",
+							"description": "上传图片文件"
+						},
+						"show_mask": {
+							"type": "number",
+							"default": 1,
+							"maximum": 1,
+							"minimum": 0,
+							"description": "是否输出图片语义掩膜"
+						},
+						"mask_alpha": {
+							"type": "number",
+							"default": 0.5,
+							"maximum": 0.9,
+							"minimum": 0.1,
+							"description": "掩膜透明度 0.1 - 0.9"
+						}
+					}
+				}
+			},
+			"response": {
+				"Content-type": "multipart/form-data",
+				"data": {
+					"type": "object",
+					"required": [
+						"recognizer_data"
+					],
+					"properties": {
+						"predicted_image": {
+							"type": "string",
+							"description": "识别绘制图片base64"
+						},
+						"recognizer_data": {
+							"type": "object",
+							"roperties": {},
+							"description": "识别物体数据"
+						}
+					}
+				}
+			}
+		}
+	]
+}
